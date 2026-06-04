@@ -885,6 +885,10 @@
   background-clip: text;
 }
 
+.trusted-stat-suffix::after {
+  display: none !important;
+}
+
 .trusted-stat-label {
   font-size: 10px;
   letter-spacing: 1.5px;
