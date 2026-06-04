@@ -1775,4 +1775,57 @@ document.addEventListener('DOMContentLoaded', () => {
       if (scrollProg < 0.05) aboutCard.style.transform = 'scale(1)';
     });
   }
+
+  // ══════════════════════════════════════════
+  // Project Cards - Scroll Parallax Animation
+  // ══════════════════════════════════════════
+  (function() {
+    const rowRight = document.querySelector('.projects-row.row-right');
+    const rowLeft = document.querySelector('.projects-row.row-left');
+
+    if (!rowRight || !rowLeft) return;
+
+    const scrollMultiplier = 0.4; // Controls how fast the rows move
+
+    // Set initial transform state
+    gsap.set([rowRight, rowLeft], { x: 0 });
+
+    // Create scroll animation using ScrollTrigger
+    if (typeof ScrollTrigger !== 'undefined') {
+      gsap.to(rowRight, {
+        x: () => window.innerWidth * 0.5, // Drift right
+        scrollTrigger: {
+          trigger: '.trusted-section',
+          start: 'top center',
+          end: 'bottom center',
+          scrub: 0.6,
+          markers: false,
+          onUpdate: (self) => {
+            // Smooth progress-based movement
+            gsap.set(rowRight, {
+              x: self.progress * window.innerWidth * scrollMultiplier
+            });
+          }
+        }
+      });
+
+      gsap.to(rowLeft, {
+        x: () => -(window.innerWidth * 0.5), // Drift left
+        scrollTrigger: {
+          trigger: '.trusted-section',
+          start: 'top center',
+          end: 'bottom center',
+          scrub: 0.6,
+          markers: false,
+          onUpdate: (self) => {
+            // Smooth progress-based movement
+            gsap.set(rowLeft, {
+              x: -(self.progress * window.innerWidth * scrollMultiplier)
+            });
+          }
+        }
+      });
+    }
+  })();
+
 });
