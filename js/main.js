@@ -1777,7 +1777,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ══════════════════════════════════════════
-  // Project Cards - Scroll Parallax Animation
+  // Project Cards - Horizontal Carousel Animation
   // ══════════════════════════════════════════
   (function() {
     const rowRight = document.querySelector('.projects-row.row-right');
@@ -1785,44 +1785,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!rowRight || !rowLeft) return;
 
-    const scrollMultiplier = 0.4; // Controls how fast the rows move
-
-    // Set initial transform state
-    gsap.set([rowRight, rowLeft], { x: 0 });
+    // Calculate the total width needed for smooth scrolling
+    const totalWidth = rowRight.scrollWidth;
 
     // Create scroll animation using ScrollTrigger
     if (typeof ScrollTrigger !== 'undefined') {
+      // Top row: scrolls left (cards move from left to right, flowing out to the right)
       gsap.to(rowRight, {
-        x: () => window.innerWidth * 0.5, // Drift right
+        x: -totalWidth * 0.5, // Move left, creating rightward flow
         scrollTrigger: {
           trigger: '.trusted-section',
           start: 'top center',
           end: 'bottom center',
-          scrub: 0.6,
-          markers: false,
-          onUpdate: (self) => {
-            // Smooth progress-based movement
-            gsap.set(rowRight, {
-              x: self.progress * window.innerWidth * scrollMultiplier
-            });
-          }
+          scrub: 0.8,
+          markers: false
         }
       });
 
+      // Bottom row: scrolls right (cards move from right to left, flowing out to the left)
       gsap.to(rowLeft, {
-        x: () => -(window.innerWidth * 0.5), // Drift left
+        x: totalWidth * 0.5, // Move right, creating leftward flow
         scrollTrigger: {
           trigger: '.trusted-section',
           start: 'top center',
           end: 'bottom center',
-          scrub: 0.6,
-          markers: false,
-          onUpdate: (self) => {
-            // Smooth progress-based movement
-            gsap.set(rowLeft, {
-              x: -(self.progress * window.innerWidth * scrollMultiplier)
-            });
-          }
+          scrub: 0.8,
+          markers: false
         }
       });
     }
